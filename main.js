@@ -1,29 +1,32 @@
-d3.select('body')
-	.append('p')
-	.text('Hello World!');
+var data = [
+  {
+    "cx": 30,
+    "cy": 30
+  },
+  {
+    "cx": 100,
+    "cy": 100
+  },
+  {
+    "cx": 150,
+    "cy": 150
+  }
+];
 
-var canvas = d3.select('body')
+var svg = d3.select('body')
 				.append('svg')
-				.attr('width', 500)
-				.attr('height', 500);
+				.attr('width', 400)
+				.attr('height', 400);
 
-var circle = canvas.append('circle')
-				.attr('cx', 250) //origin
-				.attr('cy', 250)
-				.attr('r', 50)
-				.attr('fill', 'red');
-
-var rect = canvas.append('rect')
-				.attr('x', 50) //starting point
-				.attr('y', 50)
-				.attr('width', 150)
-				.attr('height', 50)
-				.attr('fill', 'red');
-
-var line = canvas.append('line')
-				.attr('x1', 100)
-				.attr('y1', 150)
-				.attr('x2', 200)
-				.attr('y2', 300)
-				.attr('stroke', 'green')
-				.attr('stroke-width', 2);
+svg.selectAll('circle') //temp circle object using selectAll
+	.data(data) //give data to temp obj
+	.enter() //enter to start draw
+	.append('circle') //append circle
+	.attr('cx', function(prop) { //use data to provide cx and cy
+		return prop.cx;
+	})
+	.attr('cy', function(prop) {
+		return prop.cy;
+	})
+	.attr('r', 30)
+	.attr('fill', 'red');
