@@ -1,7 +1,7 @@
 var data = [
   {
-    "cx": 30,
-    "cy": 30
+    "cx": 60,
+    "cy": 60
   },
   {
     "cx": 100,
@@ -13,12 +13,14 @@ var data = [
   }
 ];
 
+var offset = 1;
+
 var svg = d3.select('body')
 				.append('svg')
 				.attr('width', 400)
 				.attr('height', 400);
 
-svg.selectAll('circle') //temp circle object using selectAll
+var circles = svg.selectAll('circle') //temp circle object using selectAll
 	.data(data) //give data to temp obj
 	.enter() //enter to start draw
 	.append('circle') //append circle
@@ -30,3 +32,20 @@ svg.selectAll('circle') //temp circle object using selectAll
 	})
 	.attr('r', 30)
 	.attr('fill', 'red');
+
+function animate() {
+ 	data.forEach(function(d) {
+    	d.cx += getRandomOffset();
+    	d.cy += getRandomOffset();
+  	});
+ 
+  	circles.data(data).attr('cx', function(prop) { return prop.cx; })
+		.attr('cy', function(prop) { return prop.cy; });
+	window.requestAnimationFrame(animate);
+}
+
+window.requestAnimationFrame(animate)
+
+function getRandomOffset() {
+  return (Math.random() * 2 * offset) - offset;
+}
